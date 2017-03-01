@@ -77,7 +77,7 @@ Optionally, I have the choice of retrieving the image from the sreenshot as well
 
 <tr>
 <td style="text-align: center;"><a href="http://bit.ly/saikoagdx"><img style="margin-right:20px" src="http://libgdx.badlogicgames.com/img/saikoa.png" alt="Saikoa" /></a></td>
-<td style="text-align: center;"><a href="http://bit.ly/intelgdx"><img style="margin-right: 20px" src="http://libgdx.badlogicgames.com/img/intel.png" alt="intel Software Partner" /></a></td>
+<td style="text-align: center;"><a href="http://bit.ly/intelgdx"><img style="margin-left: 50px" src="http://libgdx.badlogicgames.com/img/intel.png" alt="intel Software Partner" /></a></td>
 </tr>
 
 <tr>
