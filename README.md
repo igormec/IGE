@@ -9,7 +9,7 @@ Once the system is capable of running many accounts, work can begin on analytics
 <br>
 
 <h2>Outline</h2>
-There are several basic milestone to reach for within a handful of categories:
+There are several basic milestones to reach for within a handful of categories:
 <ol>
 
     <li><h3>Management</h3>
@@ -31,16 +31,15 @@ There are several basic milestone to reach for within a handful of categories:
     <li><h3>Posting</h3>
         <ul>
             <li>The posting will happen automatically at a randomly generated time within a certain time frame of the day. </li>
-            <li>Pages will be sorted into a few categories:
+            <li>Pages will be sorted into 3 categories:
                 <ol>
                 <li><b>Properly sourced, manual caption</b> - Images where I can tag the original poster to give them credit. This will have a bonus of manually written captions to ensure quality uploads</li>
                 <li><b>Properly sourced, auto-caption</b> - Similar to the above but for ease of operation, not all pages will have manual caption. Some will simply tag the source and add the hashtags.</li>
-                <li><b>Unsourced, auto-caption</b> - These are images for which I can't give credit. These profiles will essentially be a dump of the random images with captions auto picked from a list of generics.</li>
+                <li><b>Unsourced, auto-caption</b> - These are images for which I can't give credit. These profiles will essentially be a dump of the random images I have with captions auto picked from a list of generic captions.</li>
 
-                </ol>
-                        
+                </ol>        
             </li>
-            <li></li>
+            <li>Possibilty of voice-to-text manual caption entry for ease of use and speed.</li>
         </ul>
     </li>
 </ol>
