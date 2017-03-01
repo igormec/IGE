@@ -68,21 +68,3 @@ After repeating the process of blurring and thresholding one more time, the blur
 
 Optionally, I have the choice of retrieving the image from the sreenshot as well. The image is obtained by simply finding the biggest blob of pixels. This will work on all images except those that have a large white pixel count. The problem occurs most notably for things like Twitter screenshots and quotes on a white background as the algorithm that groups pixels into blobs relies on them being dark.
 
-
-<table>
-<tr>
-<td style="text-align: center;"><a href="http://bit.ly/robovmgdx"><img style="margin-right:20px" src="http://libgdx.badlogicgames.com/img/robovm.png" alt="RoboVM" /></a></td>
-<td style="text-align: center;"><a href="http://bit.ly/spinegdx"><img src="http://libgdx.badlogicgames.com/img/spine.png"></a></td>
-</tr>
-
-<tr>
-<td style="text-align: center;"><a href="http://bit.ly/saikoagdx"><img style="margin-right:20px" src="http://libgdx.badlogicgames.com/img/saikoa.png" alt="Saikoa" /></a></td>
-<td style="text-align: center;"><a href="http://bit.ly/intelgdx"><img style="margin-left: 50px" src="http://libgdx.badlogicgames.com/img/intel.png" alt="intel Software Partner" /></a></td>
-</tr>
-
-<tr>
-<td style="text-align: center;"><a href="http://bit.ly/jetblog"><img src="http://libgdx.badlogicgames.com/img/excelsior.png" alt="Excelsior JET"></a></td>
-<td style="text-align: center;"><a href="http://bit.ly/nextpeergdx"><img src="http://libgdx.badlogicgames.com/img/nextpeer.png"></a></td>
-</tr>
-</table>
-
