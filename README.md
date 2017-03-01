@@ -54,12 +54,11 @@ There are several basic milestones to reach for within a handful of categories:
 Achieving these objectives is not as simple as it seems though. Several languages are required and the project relies on existing libraries. However, once all these ideas are realized and implemented, the system should be able to run smoothly.
 
 
+<br><br>
+<h4>UPDATE: March 1st, 2017<h/4>
 
-UPDATE: March 1st, 2017
-
+<h2>Image Processing - Parsing the Screenshots</h2>
 In order to seed the Instagram profile with an initial amount of photos, hundreds of screenshots were collected for various interests.The screenshots contain a profile name followed by the image that the profile posted. I am interested in just those two pieces of data.
-
-<h2>Image Processing</h2>
 
 I have written a Python script that will parse the image and retrieve both the name (in text format) and a cropped version of the image.
 The name is obtained by first blurring the entire screenshot in order to "spread" the darker pixels, the text in particular.
