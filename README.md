@@ -2,15 +2,32 @@
 
 <h2>Summary</h2>
 The ultimate goal of IGE is to create an automated system for running a multitude of Instagram accounts.
-This project aims to build a system that requires minimal input from the user while being able to manage up to 150 Instagram accounts, all posting daily content based on different topics and niches. 
-
-
-
-
+This project aims to build a system that requires minimal input from the user while being able to manage up to 150 Instagram accounts, all posting daily content based on different topics and niches.
 
 Once the system is capable of running many accounts, work can begin on analytics and finding marketing opportunities. As there will be many pages with (hopefully) many followers, I open up a variety of markets that could potentially be interesting to advertisers or sponsors. Past that, there is only perfecting the system and selling it off, however, I'll be lucky if I manage to get even one advertiser on board.
 
+<br>
 
+<h2>Outline</h2>
+There are several basic milestone to reach for within a handful of categories:
+<ol>
+
+    <li><h3>Content</h3>
+        <ul>
+            <li>I have thousands of collected screenshots ready to be parsed and added to a database.</li>
+            <li>Thousands more images are bookmarked on my personal Instagram for future retreival.</li>
+            <li>Another system will be built to be able to browse hundreds of pages based on topics. For instance, there will be separate home feeds for dogs, cars, architecture, etc. </li>
+        </ul>
+    </li>
+    
+    <li><h3>Posting</h3>
+        <ul>
+            <li>I have thousands of collected screenshots ready to be parsed and added to a database.</li>
+            <li>Thousands more images are bookmarked on my personal Instagram for future retreival.</li>
+            <li>Another system will be built to be able to browse hundreds of pages based on topics. For instance, there will be separate home feeds for dogs, cars, architecture, etc. </li>
+        </ul>
+    </li>
+</ol>
 
 
 
