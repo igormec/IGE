@@ -34,7 +34,7 @@ There are several basic milestone to reach for within a handful of categories:
             <li>Pages will be sorted into a few categories:
                 <ol>
                     <li>Properly sourced, manual caption - Images where I can tag the original poster to give them credit. This will have a bonus of manually written captions to ensure quality uploads</li>
-                    <li>Properly sourced, auto-caption - Similar to the above but for ease of operation, not all pages will have manual caption. Some will simply tag the source and add the tags.</li>
+                    <li>Properly sourced, auto-caption - Similar to the above but for ease of operation, not all pages will have manual caption. Some will simply tag the source and add the hashtags.</li>
                     <li>Unsourced, auto-caption - These are images for which I can't give credit. These profiles will essentially be a dump of the random images with captions auto picked from a list of generics.</li>
 
                 </ol>
