@@ -42,6 +42,15 @@ There are several basic milestones to reach for within a handful of categories:
             <li>Possibilty of voice-to-text manual caption entry for ease of use and speed.</li>
         </ul>
     </li>
+    
+    <li><h3>Interaction</h3>
+        <ul>
+            <li>Make crawlers to collect lists of instagram users potentially interested in one of my specific pages. Lists will come from the followers of other pages, as well as users that comment and like certain posts related to my page.</li>
+            <li>My profiles will also be able to like and comment on other users' content. The liking can be simple random liking but the comments will require manual generation of a list of generic comments. The goal is to press one button, pick a comment category and it leaves a comment. This is in place of actually typing out a full personal comment.</li>            
+        </ul>
+    </li>
+    
+    
 </ol>
 
 
