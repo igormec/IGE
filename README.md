@@ -46,14 +46,12 @@ There are several basic milestones to reach for within a handful of categories:
     <li><h3>Interaction</h3>
         <ul>
             <li>Make crawlers to collect lists of instagram users potentially interested in one of my specific pages. Lists will come from the followers of other pages, as well as users that comment and like certain posts related to my page.</li>
-            <li>My profiles will also be able to like and comment on other users' content. The liking can be simple random liking but the comments will require manual generation of a list of generic comments. The goal is to press one button, pick a comment category and it leaves a comment. This is in place of actually typing out a full personal comment.</li>            
+            <li>My profiles will also be able to like and comment on other users' content. The liking can be simple random liking but the comments will require manual creation of a list of generic comments. The goal is to press one button, pick a comment category and it leaves a comment. This is in place of actually typing out a full personal comment.</li>            
         </ul>
-    </li>
-    
-    
+    </li>    
 </ol>
-
-
+<br>
+Achieving these objectives is not as simple as it seems though. Several languages are required and the project relies on existing libraries. However, once all these ideas are realized and implemented, the system should be able to run smoothly.
 
 
 
