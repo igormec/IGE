@@ -12,19 +12,35 @@ Once the system is capable of running many accounts, work can begin on analytics
 There are several basic milestone to reach for within a handful of categories:
 <ol>
 
+    <li><h3>Management</h3>
+        <ul>
+            <li>A custom web application will be built to give an interactive view of the entire system. </li>
+            <li>It will let me manage each profile separately, see its analytics, manually post and comment, change which parts of the database it can pull images from etc.</li>
+            <li>The application will also allow me to browse my database of images with extra information regarding my content. Info such as how many images are ready to post, specific image category shortages, etc </li>
+        </ul>
+    </li>
+
     <li><h3>Content</h3>
         <ul>
             <li>I have thousands of collected screenshots ready to be parsed and added to a database.</li>
             <li>Thousands more images are bookmarked on my personal Instagram for future retreival.</li>
-            <li>Another system will be built to be able to browse hundreds of pages based on topics. For instance, there will be separate home feeds for dogs, cars, architecture, etc. </li>
+            <li>Another system will be built to be able to browse hundreds of pages based on topics. For instance, there will be separate home feeds for dogs, cars, architecture, etc that I can acquire images from </li>
         </ul>
     </li>
     
     <li><h3>Posting</h3>
         <ul>
-            <li>I have thousands of collected screenshots ready to be parsed and added to a database.</li>
-            <li>Thousands more images are bookmarked on my personal Instagram for future retreival.</li>
-            <li>Another system will be built to be able to browse hundreds of pages based on topics. For instance, there will be separate home feeds for dogs, cars, architecture, etc. </li>
+            <li>The posting will happen automatically at a randomly generated time within a certain time frame of the day. </li>
+            <li>Pages will be sorted into a few categories:
+                <ol>
+                    <li>Properly sourced, manual caption - Images where I can tag the original poster to give them credit. This will have a bonus of manually written captions to ensure quality uploads</li>
+                    <li>Properly sourced, auto-caption - Similar to the above but for ease of operation, not all pages will have manual caption. Some will simply tag the source and add the tags.</li>
+                    <li>Unsourced, auto-caption - These are images for which I can't give credit. These profiles will essentially be a dump of the random images with captions auto picked from a list of generics.</li>
+
+                </ol>
+                        
+            </li>
+            <li></li>
         </ul>
     </li>
 </ol>
