@@ -60,7 +60,15 @@ Achieving these objectives is not as simple as it seems though. Several language
 <h2>Image Processing - Parsing the Screenshots</h2>
 In order to seed the Instagram profile with an initial amount of photos, hundreds of screenshots were collected for various interests.The screenshots contain a profile name followed by the image that the profile posted. I am interested in just those two pieces of data.
 
-I have written a Python script that will parse the image and retrieve both the name (in text format) and a cropped version of the image.
+I have written a Python script that will parse the image and return both the name (as a string) and a cropped version of the image. The process is as follows:
+
+<ol>
+    <li><b>Gaussian Blur</b> - This has the effect of "spreading" the darker pixels to a bigger area. Blur is necessary for removing white pixels between the letters, which in turn makes pixel grouping easier.<br></li>
+    <li><b>Gaussian Blur</b></li>
+    <li><b>Gaussian Blur</b></li>
+    <li><b>Gaussian Blur</b></li>
+
+</ol>
 The name is obtained by first blurring the entire screenshot in order to "spread" the darker pixels, the text in particular.
 After blurring, the image undergoes a thresholding where pixels whose value is above a certain threshold are white and pixels below or equal to that value are black. This will give us a true, binary black and white image with groups of black pixels on a white background.
 
