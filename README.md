@@ -40,7 +40,8 @@ There are several basic milestones to reach for within a handful of categories:
                 </ol>        
             </li>
             <li>Possibilty of voice-to-text manual caption entry for ease of use and speed.</li>
-        </ul>
+            <li>Hashtag scraping system would be used to determine the most popular tags for each category</li>
+        </ul>
     </li>
     
     <li><h3>Interaction</h3>
