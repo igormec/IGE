@@ -41,6 +41,7 @@ There are several basic milestones to reach for within a handful of categories:
             </li>
             <li>Possibilty of voice-to-text manual caption entry for ease of use and speed.</li>
             <li>Hashtag scraping system would be used to determine the most popular tags for each category</li>
+               <li>Image editor for basic cropping and colour adjustment. Video editor to mute or trim videos.</li>
         </ul>
     </li>
     
