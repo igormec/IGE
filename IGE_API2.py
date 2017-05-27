@@ -74,7 +74,7 @@ def trim(im, showSteps=False, returnArr=False):
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#show function will show the image array passed to it in greyscale
+#show function will display the image array passed to it in greyscale
 def show(im, flat=True):
     plt.clf()
     plt.imshow(readImage(im, flat=flat), cmap='gray', interpolation='nearest')
@@ -83,7 +83,7 @@ def show(im, flat=True):
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #thresh_otsu method takes an image array and returns binary image array where
-#all pixels above amt are white and below/equal to amt are black
+#all pixels above thresh value are white and below/equal to thresh are black
 def thresh_otsu(im, thresh):
     im = im > thresh
     im = sk.img_as_float(im)
@@ -92,6 +92,7 @@ def thresh_otsu(im, thresh):
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
+#readImage takes either a path string to 
 def readImage(img, flat=True):
     try:
         return ndi.imread(img, flatten=flat) if type(img) == type('str') else img
@@ -100,6 +101,7 @@ def readImage(img, flat=True):
         return None
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
+#makes a folder in the path directory if one doesn't already exist
 def makeFolder(path):
     if not os.path.isdir(path):
         os.makedirs(path)
@@ -107,6 +109,8 @@ def makeFolder(path):
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
+#this function takes all the folder names that have been read and finds the most
+#common strings of different lengths, then displays the strings in order
 def collect_terms():
     allNames = 'D:\\Screenshots - Copy\\IG\\filtered\\NONE\\'
     allNames = os.listdir(allNames)
