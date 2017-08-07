@@ -4,25 +4,109 @@
 
 import requests, bs4, sys, webbrowser, time, os, pprint
 
-#os.makedirs('D:\\Storage\\Internet Saves\\ML\\Pics', exist_ok=True)
+DEBUG = False
+CURRENT_USER = ''
+USER_SOUP = ''
+#==================PRIVATE FUNCTIONS==================#
 
-#Connect to the page
-url = 'http://instagram.com/pcscenes/'
-print("Connecting to IG Server...")
+#Connect to user's profile and get full DOM of page
+def get_soup(username):
+
+    global CURRENT_USER
+    global USER_SOUP
+    
+    if username == '':
+        print("No username")
+    else:
+
+        #If checking for same user as last function call, use same soup
+        #This will connect to IG only once reducing IG calls
+        if CURRENT_USER == username:
+            if DEBUG: print("Return same soup")
+            return USER_SOUP
+
+        else:
+            CURRENT_USER = username
+            #Connect to the page
+            url = 'http://instagram.com/'+username+'/'
+            if DEBUG:
+                print("Connecting to IG Server...")
+
+            try:
+                res = requests.get(url)
+                res.raise_for_status()
+                if DEBUG:
+                    print("Got page")
+            except Exception as e:
+                print("Error: %s" %(e))
+                sys.exit(1)
 
 
-try:
-    res = requests.get(url)
-    res.raise_for_status()
-    print("Got page")
-except Exception as e:
-    print("Error: %s" %(e))
-    sys.exit(1)
+            #Get profile page
+            soup = bs4.BeautifulSoup(res.text, "html.parser")
+            USER_SOUP = soup
+            #if DEBUG:
+                #print(soup)
+            return soup
+        
+        
+
+#This gets the tag 
+def get_profile_numbers(user):
+    soup = get_soup(user)
+    numbers = soup.find("meta", attrs={"property":"og:description"})
+    if DEBUG:
+        print(numbers)
+
+    output = numbers['content']
+    if DEBUG:
+        print(output)
+    return output
 
 
-#Get number of items
-soup = bs4.BeautifulSoup(res.text, "html.parser")
-print(soup)
+
+
+#==================PUBLIC FUNCTIONS==================#
+
+
+def get_followers(user):
+    out = get_profile_numbers(user).split(' ')[0]
+    if DEBUG:
+        print(out)
+    return int(out)
+
+def get_following(user):
+    out = get_profile_numbers(user).split(' ')[2]
+    if DEBUG:
+        print(out)
+    return int(out)
+
+def get_numPosts(user):
+    out = get_profile_numbers(user).split(' ')[4]
+    if DEBUG:
+        print(out)
+    return int(out)
+
+def get_username(user):
+    out = get_profile_numbers(user).split('(')[1]
+    out = out[1:-1]
+    if DEBUG:
+        print(out)
+    return out
+
+
+
+
+if __name__ == '__main__':
+    print('RUNNING')
+
+
+
+
+
+
+
+
 '''
 numPics = soup.select('span[class="active"]')   #---> • Images [ 2,358 ] •
 numPics = numPics[0].getText().split('[ ')      #---> '• Images', '2,358 ] •'
