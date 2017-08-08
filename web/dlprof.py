@@ -2,8 +2,9 @@
 #MLDownloader.py - downloads all ML items in favourites
 
 
-import json, requests, bs4, time, pprint
+import json, requests, bs4, time, pprint, re, unicodedata
 
+DEBUG2 = True
 DEBUG = True
 CURRENT_USER = ''
 USER_SOUP = ''
@@ -52,48 +53,97 @@ def get_soup(username):
 
 def get_main_json(user):
 
-    jsn = get_soup(user)
     if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = get_soup(user)
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn.find_all('script')
-    if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = jsn.find_all('script')
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn[1]
-    if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = jsn[1]
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn.contents
-    if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = jsn.contents
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn[0].split('._sharedData = ')
-    if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = jsn[0].split('._sharedData = ')
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn[1]
-    if DEBUG:
-        print(jsn)
-        print('\n\n\n\n========================\n\n\n\n\n')
+        jsn = jsn[1]
+        if DEBUG:
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
 
-    jsn = jsn[:-1]
+        jsn = jsn[:-1]
+        if DEBUG:
+            #pprint.p
+            print(jsn)
+            print('\n\n\n\n========================\n\n\n\n\n')
+    else:
+        jsn=get_soup(user).find_all('script')[1].contents[0].split('._sharedData = ')[1][:-1]
+
+
+    #REGEX TO IGNORE EMOJIS
+    myre = re.compile(u'\\\\ud83c\\\\udf[^ \t\n\r\f\v]{2,2}|'
+                      u'\\\\ud83d\\\\ud[c-f][^ \t\n\r\f\v]{2,2}|'
+                      u'\\\\u26[^ \t\n\r\f\v]{2,2}|'
+                      u'\\\\u27([0-9]|[ab])([0-9]|[a-f])'
+                      ,re.UNICODE)
+
+    #try:
+    # UCS-4
+    '''
+    myre = re.compile(u'\\\\ud83c\\\\[udf00-udfff]*|'
+    
+                    u'\\\\ud83d\\\\[udc00-ude4f]*|\\\\[ude80-udeff]*',re.UNICODE)
+    
+                    u'\\\\[u2600-u26FF]*\\\\[u2700-u27BF]*', 
+                re.UNICODE)
+    '''
+    #patt = re.compile('\\\\u[^ \t\n\r\f\v]{1,4}', re.IGNORECASE)
+    print(re.search(myre,jsn))
+        
+    #except re.error:
+    # UCS-2
+        #patt = re.compile(u'([\U00002600-\U000027BF])|([\U0001f300-\U0001f64F])|([\U0001f680-\U0001f6FF])')
+    jsn = myre.sub('(EMJ)', jsn)
+
+
+    #jsn = ''.join(c for c in jsn if c <= '\uaaaa')
+
+
+
+    #jsn = ''.join(c for c in unicodedata.normalize('NFC', jsn) if c <= '\uAAAA')
+
     if DEBUG:
+            #pprint.p
+        print("SPECIAL")
+        print(type(jsn))
         pprint.pprint(jsn)
         print('\n\n\n\n========================\n\n\n\n\n')
 
+            
+
     jsn = json.loads(jsn)
-    if DEBUG:
+    
+    if DEBUG2:
+        #pprint.p
         pprint.pprint(jsn)
         print('\n\n\n\n========================\n\n\n\n\n')
 
     jsn = jsn['entry_data']['ProfilePage'][0]['user']
-    if DEBUG:
+    if DEBUG2:
+        #pprint.p
         pprint.pprint(jsn)
         print('\n\n\n\n========================\n\n\n\n\n')
         
@@ -150,13 +200,16 @@ def get_last_pic(user, num=1):
     s = get_soup(user)
     
     
+#def get_bio(user):
 
+#def get_fullName(user):
+    
 
 
 if __name__ == '__main__':
     print('RUNNING')
 
-    mainjson = get_main_json('pcscenes')
+    mainjson = get_main_json('kimkardashian')
 
 
 
