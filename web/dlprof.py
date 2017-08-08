@@ -2,9 +2,9 @@
 #MLDownloader.py - downloads all ML items in favourites
 
 
-import requests, bs4, sys, webbrowser, time, os, pprint
+import json, requests, bs4, time, pprint
 
-DEBUG = False
+DEBUG = True
 CURRENT_USER = ''
 USER_SOUP = ''
 #==================PRIVATE FUNCTIONS==================#
@@ -45,11 +45,62 @@ def get_soup(username):
             #Get profile page
             soup = bs4.BeautifulSoup(res.text, "html.parser")
             USER_SOUP = soup
-            #if DEBUG:
-                #print(soup)
+            if DEBUG:
+                print(soup)
             return soup
         
+
+def get_main_json(user):
+
+    jsn = get_soup(user)
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn.find_all('script')
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn[1]
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn.contents
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn[0].split('._sharedData = ')
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn[1]
+    if DEBUG:
+        print(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn[:-1]
+    if DEBUG:
+        pprint.pprint(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = json.loads(jsn)
+    if DEBUG:
+        pprint.pprint(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
+
+    jsn = jsn['entry_data']['ProfilePage'][0]['user']
+    if DEBUG:
+        pprint.pprint(jsn)
+        print('\n\n\n\n========================\n\n\n\n\n')
         
+    return jsn
+    
+
+
 
 #This gets the tag 
 def get_profile_numbers(user):
@@ -95,11 +146,17 @@ def get_username(user):
     return out
 
 
+def get_last_pic(user, num=1):
+    s = get_soup(user)
+    
+    
+
 
 
 if __name__ == '__main__':
     print('RUNNING')
 
+    mainjson = get_main_json('pcscenes')
 
 
 
