@@ -20,8 +20,9 @@ def get_soup(username):
         print("No username")
     else:
 
-        #If checking for same user as last function call, use same soup
-        #This will connect to IG only once reducing IG calls
+        #This checks whether we're fetching soup for same uesr as last
+        #time this funciton is called. If so, use same soup
+        #This will make it so script connects to IG only once reducing IG calls
         if CURRENT_USER == username:
             if DEBUG: print("Return same soup")
             return USER_SOUP
@@ -37,13 +38,13 @@ def get_soup(username):
                 res = requests.get(url)
                 res.raise_for_status()
                 if DEBUG:
-                    print("Got page")
+                    print("Response received")
             except Exception as e:
                 print("Error: %s" %(e))
                 sys.exit(1)
 
 
-            #Get profile page
+            #Get profile page soup
             soup = bs4.BeautifulSoup(res.text, "html.parser")
             USER_SOUP = soup
             if DEBUG:

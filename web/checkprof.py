@@ -15,7 +15,7 @@ pos = 0
 
 for user in users:
 
-    global output, fle, flo, pos
+    #global output, fle, flo, pos
     output += user
 
     oldFollowers = flo
