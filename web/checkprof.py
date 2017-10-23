@@ -4,8 +4,8 @@ import dlprof as prof
 
 
 #load profile, check for diffs between last time checked
-
-users = ['pcscenes']
+global output, followerCount, followingCount, poss
+users = ['kimkardashian']
 output = '=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\nUser: '
 
 followerCount = 4
@@ -14,11 +14,11 @@ poss = 0
 
 for user in users:
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
     #global output, fle, flo, pos
-=======
-    global output, followerCount, followingCount, poss
->>>>>>> e5b584b54044693d99d90ea821bf29fc0370f2da
+#=======
+    
+#>>>>>>> e5b584b54044693d99d90ea821bf29fc0370f2da
     output += user
 
     oldFollowers = followerCount

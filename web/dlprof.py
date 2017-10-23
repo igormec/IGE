@@ -4,8 +4,8 @@
 
 import json, requests, bs4, time, pprint, re, unicodedata
 
-DEBUG2 = True
-DEBUG = True
+DEBUG2 = False
+DEBUG = False
 CURRENT_USER = ''
 USER_SOUP = ''
 #==================PRIVATE FUNCTIONS==================#
