@@ -1,6 +1,6 @@
 import sqlite3
 
-maindb = sqlite3.connect('C:/Users/Igor/Documents/Dev/projects/IGE/web/ex.db')
+maindb = sqlite3.connect('C:/Users/Igor/Documents/Dev/projects/IGE/db/MAIN.db')
 mainCur = maindb.cursor()
 
 
@@ -15,3 +15,5 @@ def create_db(name):
 
     
     
+c.execute("SELECT * FROM following WHERE (username LIKE '%bern%') OR (full_name LIKE '%bern%')")
+rows = c.fetchall()
