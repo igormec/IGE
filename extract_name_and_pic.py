@@ -187,10 +187,10 @@ def getNameAndPic(src='', dest='', savePic=False, saveAll=False, drawAll=False):
 
 if __name__ == '__main__':
 
-    src = 'C:\\Users\\Igor\\Desktop\\sc.png'
-    dest = 'C:\\Users\\Igor\\Desktop\\'
-    namet, pic = getNameAndPic(src, dest, saveAll=True)
-    print(namet)
+    #src = 'C:\\Users\\Igor\\Desktop\\sc.png'
+    #dest = 'C:\\Users\\Igor\\Desktop\\'
+    #namet, pic = getNameAndPic(src, dest, saveAll=True)
+    print('hello')
 
 '''
 -----PLAN-----
