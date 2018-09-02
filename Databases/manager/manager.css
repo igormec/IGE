@@ -1,0 +1,176 @@
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: rgb(32, 32, 32);
+    
+}
+
+td {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#main-grid {
+    /* border: 1px;
+    border-style: solid;
+    border-color: grey; */
+    margin: 10px;
+    width: 1500px;
+    max-height: 900px;
+    float:left;
+    
+}
+
+#upperSidePanel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 380px;
+    height: 455px;
+    background-color: rgb(138, 59, 59);
+    
+}
+
+
+#lowerSidePanel {
+    position: absolute;
+    top: 485px;
+    right: 10px;
+    width: 380px;
+    height: 440px;
+    background-color: rgb(138, 59, 59);
+}
+
+#jsonOutput {
+    background-color: rgb(49, 85, 73);
+    height: 350px;
+    width: 340px;
+    display: block;
+    margin: 10px 10px 1px 10px;
+    padding: 10px;
+}
+
+#transferButtonPanel {
+    background-color: rgb(49, 85, 73);
+    width: 360px;
+    height: 50px;
+    margin: 1px 10px 10px 10px;
+}
+
+
+
+
+#profTable {
+    
+    border-spacing: 1px;
+    border-collapse: separate;
+    display: block;   
+    height: 725px;
+    /*width: 100px;*/
+    overflow-y: scroll;
+    background-color: rgb(44, 44, 44);
+    /*float:left;*/
+}
+
+
+#profileInfoPane {
+    background-color: #494949;
+    width: 1490px;
+    height: 148px;
+    margin: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 5px;
+    padding-top: 16px;
+    float: left;
+}
+
+#infoPanIcon {
+    float: left;
+    background-color: white;
+    height: 55px;
+    width: 43px;
+    margin: 23px;
+    margin-top: 10px;
+}
+
+#infoPanTitle {
+    color: white;
+    font-size: 120%;
+    padding: 0;
+    margin: 0;
+    width: 1000px;
+    /*The combo of next three will cut the text with 
+    ... at the above width amount*/
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+#infoPanURL {
+    color: #a5a5a5;
+    font-size: 105%;
+    padding: 0;
+    margin-top: 7px;
+    width: 800px;
+    /*The combo of next three will cut the text with 
+    ... at the above width amount*/
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+#infoPanAddDate {
+    color: #bbbbbb;
+    font-size: 100%;
+    font-style: italic;
+    padding: 0;
+    margin-top: 10px;
+
+}
+
+
+
+
+
+
+.mainListItem {
+    background-color: #7a692f;
+    width: 150px;
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+}
+
+
+
+.listItemLink {
+    max-width: 220px;
+    height: 40px;
+    margin-left: 0px;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
