@@ -155,19 +155,45 @@ p {
 
 .profimg {
     border-radius: 15%;
-    margin: 10px;
+    margin: 7px;
+    float:left;
+}
+
+.profhandle {
+    text-align: left;
+    margin-left: 2px;
+    margin-top: 10px;
+    float: left;
+    font-size: 12pt;
+    font-weight: bold;
+    background-color: #555555;
+    padding: 4px 0px 4px 7px;
+    max-width: 180px;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .profname {
-
-    font-size: 8pt;
+    padding-top: 8px;
+    font-size: 11pt;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 5px;
+    margin-left: 10px;
+    float: left;
+    text-align: left;
+    max-width: 180px;
 }
 
 
+
+
 .mainListItem {
-    background-color: #7a692f;
-    width: 125px;
-    height: 150px;
+    background-color: #444444;
+    width: 298px;
+    height: 100px;
     margin: 0px 1px 0px 0px;
     padding: 0px;
     text-align: center;

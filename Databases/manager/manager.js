@@ -60,29 +60,6 @@ function makeInfoBar(node){
 	return $itemDiv;
 }
 
-function getMonthString(month){
-	return ["January", "February", "March", "April", "May", 
-			"June", "July", "August","September","October", "November", "December"][month];
-}
-
-function getDateEnd(date){
-	var str = date.toString();
-	var lastDigit = str.charAt(str.length-1)
-	
-	if (lastDigit == 1) {
-		return (date + "st");
-	
-	}else if (lastDigit == 2) {
-		return (date + "nd");
-	
-	}else if (lastDigit == 3) {
-		return (date + "rd");
-	
-	}else{
-		return (date + "th");
-	}
-}
-
 function setSizes(){
 	console.log("Changing size");
 	var width = window.innerWidth;
@@ -190,17 +167,7 @@ function addEvents(){
 document.addEventListener('DOMContentLoaded', function () {
   	
 
-  	var tree = chrome.bookmarks.getTree(
-  		//on load, tree is 0th/top node given in an array of length 1
-  		//take children of tree[0] to get Bookmarks Bar and Other bookmarks
-  		function(tree){
-  			currentNode = tree[0];
-  			var mainBookmarksArray = tree[0].children;
-  			makeTable(mainBookmarksArray);  				
-  		}
-	);
-
-	$("#upButton").hover(
+	$(".mainListItem").hover(
 		function() {
 			$(this).animate({"backgroundColor":"#252525"}, 100);
 			//alert("IN");
