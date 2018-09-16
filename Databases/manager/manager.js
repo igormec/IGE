@@ -2,110 +2,110 @@ var currentNode = null;
 var columns = 0;
 var tableHeight = 0;
 
-function makeTable(nodeList) {
+// function makeTable(nodeList) {
 
-	var $table = $("#bmTable");
-	$table.remove();
-	$("#bm-list").append($("<table>", {"id":"bmTable"}))
-	$table = $("#bmTable");
-	$tbody = $("<tbody>");
-	$table.append($tbody);
-	//nuclear option
-	//$table.html("");
-	console.log(nodeList.length);
+// 	var $table = $("#bmTable");
+// 	$table.remove();
+// 	$("#bm-list").append($("<table>", {"id":"bmTable"}))
+// 	$table = $("#bmTable");
+// 	$tbody = $("<tbody>");
+// 	$table.append($tbody);
+// 	//nuclear option
+// 	//$table.html("");
+// 	console.log(nodeList.length);
 
-	//Go through all the nodes at the current BookmarkNode
-	for(var i = 0;i < (nodeList.length);i++){
-		var node = nodeList[i];
-		//Add a new row every 5 nodes, makes 5 columns.
-		if(i % 5 == 0){
-			var $row = $("<tr>");
-			$tbody.append($row);
-		}
-		//Make a td element
-		//make the mainListItem div inside td
-		var $td = $("<td>");
+// 	//Go through all the nodes at the current BookmarkNode
+// 	for(var i = 0;i < (nodeList.length);i++){
+// 		var node = nodeList[i];
+// 		//Add a new row every 5 nodes, makes 5 columns.
+// 		if(i % 5 == 0){
+// 			var $row = $("<tr>");
+// 			$tbody.append($row);
+// 		}
+// 		//Make a td element
+// 		//make the mainListItem div inside td
+// 		var $td = $("<td>");
 
-		if (node.url){
-			$td.append(makeLinkDiv(node));
-		}else{
-			$td.append(makeGroupDiv(node));
-		}
-		//After adding 5 nodes to row, append row to table
-		$row.append($td);
-	}
-	//Refresh all the divs functionalities
-	addEvents();
-}
-
-
-function makeLinkDiv(node){
-	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
-	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : node.url);
-	$itemDiv.append($span);
-	return $itemDiv;
-}
-
-function makeGroupDiv(node){
-	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
-	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : "Group");
-	$itemDiv.append($span);
-	return $itemDiv;
-}
-
-function makeInfoBar(node){
-	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
-	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : node.url);
-	$itemDiv.append($span);
-	return $itemDiv;
-}
-
-function setSizes(){
-	console.log("Changing size");
-	var width = window.innerWidth;
-	var height = window.innerHeight;
-	oldCols = columns;
-	oldTblHeight = tableHeight;
-	columns = Math.ceil(width*0.7)/240;
-	tableHeight = Math.ceil(height*0.7);
-
-	//Change the table and row values and reload doc
-	//only if at least one of them has changed
-	if(!(columns == oldCols && tableHeight == oldTblHeight)){
-		console.log("Changing size for real");
-		var node = chrome.bookmarks.getSubTree(currentNode.id,
-			function(node){
-				node = node[0];
-				makeTable(node.children);
-			}
-		);
-	}	
-}
+// 		if (node.url){
+// 			$td.append(makeLinkDiv(node));
+// 		}else{
+// 			$td.append(makeGroupDiv(node));
+// 		}
+// 		//After adding 5 nodes to row, append row to table
+// 		$row.append($td);
+// 	}
+// 	//Refresh all the divs functionalities
+// 	addEvents();
+// }
 
 
+// function makeLinkDiv(node){
+// 	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
+// 	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : node.url);
+// 	$itemDiv.append($span);
+// 	return $itemDiv;
+// }
 
-function makeInforBar(node){
-	$("#infoPanTitle").html(node.title ? node.title : "NO TITLE");
-	$("#infoPanURL").html(node.url ? node.url : node.children.length + " children");
+// function makeGroupDiv(node){
+// 	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
+// 	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : "Group");
+// 	$itemDiv.append($span);
+// 	return $itemDiv;
+// }
 
-	if(node.url){
-		$("#infoPanIcon").css("backgroundColor","#FFFFFF");	
+// function makeInfoBar(node){
+// 	var $itemDiv = $("<div>", {"class":"mainListItem", "id":node.id});
+// 	var $span = $("<p>", {"class":"listItemLink"}).append(node.title ? node.title : node.url);
+// 	$itemDiv.append($span);
+// 	return $itemDiv;
+// }
+
+// function setSizes(){
+// 	console.log("Changing size");
+// 	var width = window.innerWidth;
+// 	var height = window.innerHeight;
+// 	oldCols = columns;
+// 	oldTblHeight = tableHeight;
+// 	columns = Math.ceil(width*0.7)/240;
+// 	tableHeight = Math.ceil(height*0.7);
+
+// 	//Change the table and row values and reload doc
+// 	//only if at least one of them has changed
+// 	if(!(columns == oldCols && tableHeight == oldTblHeight)){
+// 		console.log("Changing size for real");
+// 		var node = chrome.bookmarks.getSubTree(currentNode.id,
+// 			function(node){
+// 				node = node[0];
+// 				makeTable(node.children);
+// 			}
+// 		);
+// 	}	
+// }
+
+
+
+// function makeInforBar(node){
+// 	$("#infoPanTitle").html(node.title ? node.title : "NO TITLE");
+// 	$("#infoPanURL").html(node.url ? node.url : node.children.length + " children");
+
+// 	if(node.url){
+// 		$("#infoPanIcon").css("backgroundColor","#FFFFFF");	
 	
-	}else{
-		$("#infoPanIcon").css("backgroundColor","#3585D9");
-	}
+// 	}else{
+// 		$("#infoPanIcon").css("backgroundColor","#3585D9");
+// 	}
 	
 	
-	if (node.dateAdded){
-		var date = new Date(node.dateAdded);
-		date = (getMonthString(date.getMonth()) + ' ' + getDateEnd(date.getDate()) +' '+  date.getFullYear());
-		$("#infoPanAddDate").html(node.url ? "Added on: " + date : "Created on: "+ date);
+// 	if (node.dateAdded){
+// 		var date = new Date(node.dateAdded);
+// 		date = (getMonthString(date.getMonth()) + ' ' + getDateEnd(date.getDate()) +' '+  date.getFullYear());
+// 		$("#infoPanAddDate").html(node.url ? "Added on: " + date : "Created on: "+ date);
 	
-	}else{
-		$("#infoPanAddDate").html(node.url ? "Added on: NO DATE" : "Created on: NO DATE");
-	}
+// 	}else{
+// 		$("#infoPanAddDate").html(node.url ? "Added on: NO DATE" : "Created on: NO DATE");
+// 	}
 
-}
+// }
 
 function addEvents(){
 
@@ -114,21 +114,9 @@ function addEvents(){
 	$(".mainListItem").hover(
 		function() {
 			$(this).animate({"backgroundColor":"#252525"}, 100);
-			var node = chrome.bookmarks.getSubTree(this.id,
-				function(node){
-					node = node[0];
-					makeInforBar(node);
-				}
-			);
 		},
 		function() {
-			$(this).animate({"backgroundColor":"#494949"}, 100);
-			var node = chrome.bookmarks.getSubTree(currentNode.id,
-				function(node){
-					node = node[0];
-					makeInforBar(node);
-				}
-			);		
+			$(this).animate({"backgroundColor":"#494949"}, 100);		
 		}
 	);
 
@@ -148,19 +136,6 @@ function addEvents(){
 		}
 	);
 
-
-
-	$("#upButton").click(
-		function() {
-			var node = chrome.bookmarks.getSubTree(currentNode.parentId,
-				function(node){
-					node = node[0];
-					makeTable(node.children);
-					currentNode = node;
-				}
-			);			
-		}
-	);
 }
 
 
@@ -170,11 +145,11 @@ document.addEventListener('DOMContentLoaded', function () {
 	$(".mainListItem").hover(
 		function() {
 			$(this).animate({"backgroundColor":"#252525"}, 100);
-			//alert("IN");
+			alert("IN");
 		},
 		function() {
 			$(this).animate({"backgroundColor":"#494949"}, 100);
-			//alert("OUT");
+			alert("OUT");
 		}
 	);
 });
