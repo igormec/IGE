@@ -68,6 +68,7 @@ p {
     display: block;
     margin: 10px 10px 1px 10px;
     padding: 10px;
+    overflow: scroll;
 }
 
 #transferButtonPanel {
@@ -166,7 +167,7 @@ p {
     float: left;
     font-size: 12pt;
     font-weight: bold;
-    background-color: #555555;
+    /*background-color: #555555;*/
     padding: 4px 0px 4px 7px;
     max-width: 180px;
     text-overflow:ellipsis;

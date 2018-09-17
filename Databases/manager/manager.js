@@ -1,6 +1,117 @@
 var currentNode = null;
 var columns = 0;
 var tableHeight = 0;
+var selected = []
+
+function updateJSON(){
+
+	var arr = selected;
+	var newjson = "";
+
+	arr.forEach(function(e){
+		newjson += e;
+		var index = arr.indexOf(e);
+		index+1 == arr.length ? newjson += " <br>" : newjson += ", <br>";
+	});
+
+	
+	$("#jsonList").html(newjson);
+	//var newjson = oldjson.length == 0 ? "<br>" + txt : oldjson + ",<br>" + txt;
+
+	//$("#jsonList").html(newjson);
+}
+
+function selectProfile(prof){
+
+	var txt = $(prof).parent('.mainListItem').find('p.profhandle').text();
+
+	if(selected.includes(txt)){
+		selected.splice(selected.indexOf(txt), 1);
+		updateJSON();
+		enableHover(prof);
+		$(prof).parent('.mainListItem').animate({"backgroundColor":"#444444"}, 100);
+	}else{
+		selected.push(txt);
+		updateJSON();
+		$(prof).parent('.mainListItem').unbind('mouseenter mouseleave');
+		$(prof).parent('.mainListItem').animate({"backgroundColor":"#417f50"}, 100);
+	
+	}
+
+	// console.log(selected.length);
+
+	// updateJSON();
+	// $(prof).parent('.mainListItem').unbind('mouseenter mouseleave');
+	// $(prof).parent('.mainListItem').animate({"backgroundColor":"#417f50"}, 100);
+
+}
+
+
+function enableHover(prof){
+
+	$(prof).parent('.mainListItem').bind({
+		mouseenter: function() {
+		$(this).animate({"backgroundColor":"#252525"}, 100);
+		//alert("IN");
+		},
+		mouseleave: function() {
+		$(this).animate({"backgroundColor":"#494949"}, 100);
+		//alert("OUT");
+		}
+	});
+}
+
+function addEvents(){
+
+
+	$(".mainListItem").hover(
+		function() {
+			$(this).animate({"backgroundColor":"#252525"}, 100);
+			//alert("IN");
+		},
+		function() {
+			$(this).animate({"backgroundColor":"#494949"}, 100);
+			//alert("OUT");
+		}
+	);
+
+	// $(".mainListItem").click(
+	// 	function() {
+	// 		window.open('https://instagram.com/igor.mec', '_blank'); 		
+	// 	}
+	// );
+
+	$(".profimg").click(
+		function() {
+			selectProfile(this);			
+		}
+	);
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  	addEvents();	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // function makeTable(nodeList) {
 
@@ -107,54 +218,9 @@ var tableHeight = 0;
 
 // }
 
-function addEvents(){
 
 
-
-	$(".mainListItem").hover(
-		function() {
-			$(this).animate({"backgroundColor":"#252525"}, 100);
-		},
-		function() {
-			$(this).animate({"backgroundColor":"#494949"}, 100);		
-		}
-	);
-
-	$(".mainListItem").click(
-		function() {
-			var node = chrome.bookmarks.getSubTree(this.id,
-				function(node){
-					node = node[0];
-					if (node.children && node.children.length > 0){
-						makeTable(node.children);
-						currentNode = node;
-					}else{
-						chrome.tabs.create({url: node.url});
-					}
-				}
-			);			
-		}
-	);
-
-}
-
-
-document.addEventListener('DOMContentLoaded', function () {
-  	
-
-	$(".mainListItem").hover(
-		function() {
-			$(this).animate({"backgroundColor":"#252525"}, 100);
-			alert("IN");
-		},
-		function() {
-			$(this).animate({"backgroundColor":"#494949"}, 100);
-			alert("OUT");
-		}
-	);
-});
-
-window.addEventListener("resize", setSizes);
+//window.addEventListener("resize", setSizes);
 
 
 
