@@ -1,0 +1,4 @@
+<div id="infoPanIcon"></div>
+			<p id="infoPaneTitle"></p>
+			<p id="infoPanURL"></p>
+			<p id="infoPanAddDate"></p>

@@ -29,7 +29,9 @@ p {
     margin: 0;
     padding: 0;
 }
-
+#output {
+	overflow: auto;
+}
 #main-grid {
     /* border: 1px;
     border-style: solid;

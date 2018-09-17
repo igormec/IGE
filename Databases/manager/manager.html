@@ -3,9 +3,9 @@
 	<head>
 		<title>Database Manager</title>
 
-		<script src="jquery.min.js"></script>
-		<script src="jquery.color-2.1.2.min.js"></script>
-		<script type="text/javascript" src="manager.js"></script>
+		<script src="./js/lib/jquery.min.js"></script>
+		<script src="./js/lib/jquery.color-2.1.2.min.js"></script>
+		<script type="text/javascript" src="./js/manager.js"></script>		
 
 		<link rel="stylesheet" type="text/css" href="manager.css">
 			
@@ -390,19 +390,17 @@
 		</div>
 
 		<div id="profileInfoPane">
-
-			<div id="infoPanIcon"></div>
-			<p id="infoPaneTitle"></p>
-			<p id="infoPanURL"></p>
-			<p id="infoPanAddDate"></p>
+			<div id="error" class="error"></div>
+			<pre id="output">Results will be displayed here</pre>			
 			
 		</div>
 
 
 		<div id="upperSidePanel">
-
-
-			asdasdasdasdsad
+			Choose a Database File:
+			<label class="button">Load an SQLite database file: <input type='file' id='dbfile' ></label>
+			<br><br><br>
+			<button id='savedb'  class="button">Save the db</button>
 		</div>
 		<div id="lowerSidePanel">
 			
@@ -423,7 +421,7 @@
 
 
 		</div>
-
+		<script type="text/javascript" src="./js/db.js"></script>
 	</body>
 
 </html>	

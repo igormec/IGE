@@ -110,41 +110,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// function makeTable(nodeList) {
+function makeTable(nodeList) {
 
-// 	var $table = $("#bmTable");
-// 	$table.remove();
-// 	$("#bm-list").append($("<table>", {"id":"bmTable"}))
-// 	$table = $("#bmTable");
-// 	$tbody = $("<tbody>");
-// 	$table.append($tbody);
-// 	//nuclear option
-// 	//$table.html("");
-// 	console.log(nodeList.length);
+	var $table = $("#bmTable");
+	$table.remove();
+	$("#bm-list").append($("<table>", {"id":"bmTable"}))
+	$table = $("#bmTable");
+	$tbody = $("<tbody>");
+	$table.append($tbody);
+	//nuclear option
+	//$table.html("");
+	console.log(nodeList.length);
 
-// 	//Go through all the nodes at the current BookmarkNode
-// 	for(var i = 0;i < (nodeList.length);i++){
-// 		var node = nodeList[i];
-// 		//Add a new row every 5 nodes, makes 5 columns.
-// 		if(i % 5 == 0){
-// 			var $row = $("<tr>");
-// 			$tbody.append($row);
-// 		}
-// 		//Make a td element
-// 		//make the mainListItem div inside td
-// 		var $td = $("<td>");
+	//Go through all the nodes at the current BookmarkNode
+	for(var i = 0;i < (nodeList.length);i++){
+		var node = nodeList[i];
+		//Add a new row every 5 nodes, makes 5 columns.
+		if(i % 5 == 0){
+			var $row = $("<tr>");
+			$tbody.append($row);
+		}
+		//Make a td element
+		//make the mainListItem div inside td
+		var $td = $("<td>");
 
-// 		if (node.url){
-// 			$td.append(makeLinkDiv(node));
-// 		}else{
-// 			$td.append(makeGroupDiv(node));
-// 		}
-// 		//After adding 5 nodes to row, append row to table
-// 		$row.append($td);
-// 	}
-// 	//Refresh all the divs functionalities
-// 	addEvents();
-// }
+		if (node.url){
+			$td.append(makeLinkDiv(node));
+		}else{
+			$td.append(makeGroupDiv(node));
+		}
+		//After adding 5 nodes to row, append row to table
+		$row.append($td);
+	}
+	//Refresh all the divs functionalities
+	addEvents();
+}
 
 
 // function makeLinkDiv(node){
