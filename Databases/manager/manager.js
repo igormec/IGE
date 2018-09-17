@@ -1,52 +1,50 @@
-var currentNode = null;
-var columns = 0;
-var tableHeight = 0;
-var selected = []
+// var columns = 0;
+// var tableHeight = 0;
 
+//All profiles in the table which are selected
+var selectedProfs = []
+
+//Function to update the JSON output div
 function updateJSON(){
 
-	var arr = selected;
+	var selectedProfArr = selectedProfs;
 	var newjson = "";
 
-	arr.forEach(function(e){
-		newjson += e;
-		var index = arr.indexOf(e);
-		index+1 == arr.length ? newjson += " <br>" : newjson += ", <br>";
+	//Iterate through selectedProfs array and format to put each profile on new line
+	selectedProfArr.forEach(function(prof){
+		var index = selectedProfArr.indexOf(prof);
+		newjson += prof;
+		index+1 == selectedProfArr.length ? newjson += " <br>" : newjson += ", <br>";
 	});
-
-	
 	$("#jsonList").html(newjson);
-	//var newjson = oldjson.length == 0 ? "<br>" + txt : oldjson + ",<br>" + txt;
-
-	//$("#jsonList").html(newjson);
 }
 
+//Function to handle select/deselect of table elements
+//When clicked, profile gets added to selectedProfiles array and turns green
+//Clicking same profile again will undo the above changes
 function selectProfile(prof){
 
-	var txt = $(prof).parent('.mainListItem').find('p.profhandle').text();
+	var profHandle = $(prof).parent('.mainListItem').find('p.profhandle').text();
 
-	if(selected.includes(txt)){
-		selected.splice(selected.indexOf(txt), 1);
+	//Check if profile is in the selectedProfs array
+	if(selectedProfs.includes(profHandle)){
+		//If in array, remove, re-enab;e hover and change color back to dark
+		selectedProfs.splice(selectedProfs.indexOf(profHandle), 1);
 		updateJSON();
 		enableHover(prof);
 		$(prof).parent('.mainListItem').animate({"backgroundColor":"#444444"}, 100);
 	}else{
-		selected.push(txt);
+		//If not in array, add to array, remove hover events and make item green
+		selectedProfs.push(profHandle);
 		updateJSON();
 		$(prof).parent('.mainListItem').unbind('mouseenter mouseleave');
 		$(prof).parent('.mainListItem').animate({"backgroundColor":"#417f50"}, 100);
 	
 	}
 
-	// console.log(selected.length);
-
-	// updateJSON();
-	// $(prof).parent('.mainListItem').unbind('mouseenter mouseleave');
-	// $(prof).parent('.mainListItem').animate({"backgroundColor":"#417f50"}, 100);
-
 }
 
-
+//Function to re-enable the hover events for mainListItems after deselecting them
 function enableHover(prof){
 
 	$(prof).parent('.mainListItem').bind({
@@ -61,9 +59,8 @@ function enableHover(prof){
 	});
 }
 
+//Function to add all the eventlisteners on pageload
 function addEvents(){
-
-
 	$(".mainListItem").hover(
 		function() {
 			$(this).animate({"backgroundColor":"#252525"}, 100);
