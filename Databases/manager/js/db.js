@@ -35,16 +35,98 @@ function execute(commands) {
         console.log("Executing SQL");
 
 		outputElm.innerHTML = "";
+		var text = $("#outputElm").html();
+		var lis = []
+		console.log(results);
 		for (var i=0; i<results.length; i++) {
+			console.log(results[i].values[1])
+			console.log(results[i].values[1][1])
 			outputElm.appendChild(tableCreate(results[i].columns, results[i].values));
+			makeTable(results[i].values)
+			// console.log(results[i].values);
+			// console.log("hello");
+			// text = $("#outputElm").html();
+			// text = text + "<br>" + results[i];
+			// $("#outputElm").html(text);
 		}
 		console.log("Displaying results");
 	}
 
-	var c = "SELECT username FROM audi;"
-	worker.postMessage({action:'exec', sql:commands});
+	var c = "SELECT * FROM following;"
+	worker.postMessage({action:'exec', sql:c});
 	outputElm.textContent = "Fetching results...";
 }
+
+
+
+
+
+
+
+
+
+
+
+
+function makeTable(dataArr) {
+
+	var $table = $("#profTable");
+	$table.remove();
+	$("#main-grid").append($("<table>", {"id":"profTable"}))
+	$table = $("#profTable");
+	$tbody = $("<tbody>");
+	$table.append($tbody);
+	//nuclear option
+	//$table.html("");
+	console.log(dataArr.length);
+
+	//Go through all the nodes at the current BookmarkNode
+	for(var i = 0;i < (dataArr.length);i++){
+		//Add a new row every 5 nodes, makes 5 columns.
+		if(i % 5 == 0){
+			var $row = $("<tr>");
+			$tbody.append($row);
+		}
+		//Make a td element
+		//make the mainListItem div inside td
+		var $td = makeProfileDiv(dataArr[i]);
+		//$td.append();
+
+
+		//After adding 5 nodes to row, append row to table
+		$row.append($td);
+	}
+	//Refresh all the divs functionalities
+	addEvents();
+}
+
+
+
+
+
+
+
+function makeProfileDiv(prof) {
+	var $itemDiv = $("<td>", {"class":"mainListItem", "id":prof[0]});
+	var $pic = $("<img>", {"src":prof[3],"class":"profimg","width":"85", "height":"85"});
+	var $handle = $("<p>", {"class":"profhandle"}).append(prof[1]);
+	var $name = $("<p>", {"class":"profname"}).append(prof[2]);
+
+	$itemDiv.append($pic);
+	$itemDiv.append($handle);
+	$itemDiv.append($name);
+
+	return $itemDiv;
+
+}
+
+
+
+
+
+
+
+
 
 
 // Create an HTML table
@@ -64,7 +146,7 @@ var tableCreate = function () {
     }
   }();
 
-function execEditorContents () {
+function execSQL () {
     noerror()
     var command = "SELECT `name`, `sql`\n  FROM `sqlite_master`\n  WHERE type='table';";
 	execute (command);
@@ -77,16 +159,17 @@ dbFileElm.onchange = function() {
     console.log("new DB detected");
 	var f = dbFileElm.files[0];
 	var r = new FileReader();
-		r.onload = function(){
+	r.onload = function(){
 		worker.onmessage = function () {
 			// Show the schema of the loaded database
 			console.log("in OnMessage")			;
-//			execEditorContents();
+			execSQL();
 		};
 		//worker.onmessage = function () {};
 		try {
-			console.log("try");
+			console.log(r.result);
 			worker.postMessage({action:'open',buffer:r.result}, [r.result]);
+			console.log(r.result);
 		}
 		catch(exception) {
 			console.log("catch");
