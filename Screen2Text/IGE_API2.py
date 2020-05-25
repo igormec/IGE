@@ -20,22 +20,28 @@ X - top bar to be cropped (wifi, time etc)
  - if not found again, throw error
  - if found, collect all data and store in a database
 
+
+5/25/2020 PLAN
+ - Determine if image is instagram screenshot
+ - get name from screenshot
+ - place in folder of that same name
+ 
 --------------
 '''
 
 
 import sys, os, time, shutil, threading, pprint
-import numpy as np
+import numpy as np                                  #https://docs.scipy.org/doc/numpy-1.11.0/reference/
 from math import ceil
-from scipy import ndimage as ndi
+from scipy import ndimage as ndi                    #https://docs.scipy.org/doc/scipy-0.19.0/reference/ndimage.html
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt                     #https://matplotlib.org/3.2.1/api/pyplot_summary.html
+import matplotlib.patches as mpatches               #https://matplotlib.org/3.2.1/api/patches_api.html
 
-from PIL import Image as pil
-from PIL import ImageChops
+from PIL import Image as pil                        #- Python Imaging Library
+from PIL import ImageChops                          #http://omz-software.com/pythonista/docs/ios/ImageChops.html
 
-import skimage as sk
+import skimage as sk                                #https://scikit-image.org/docs/0.11.x/api/api.html
 from skimage.measure import compare_ssim as ssim
 from skimage.filters import gaussian
 from skimage.measure import label
@@ -49,18 +55,18 @@ pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/te
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #trim method takes out white borders on top and bottom of passed in image
 #returns the cropped version of the image
-def trim(im, showSteps=False, returnArr=False):
+def trim(img, showSteps=False, returnArr=False):
 
-    if type(im) == np.ndarray:
-        im = pil.fromarray(np.uint8(im))
+    if type(img) == np.ndarray:
+        img = pil.fromarray(np.uint8(img))
     
-    elif type(im) == type('abc'):
-        im = pil.open(im)
+    elif type(img) == type('abc'):
+        im = pil.open(img)
         if showSteps:
-            show(im)
+            show(img)
             
-    bg = pil.new(im.mode, im.size, im.getpixel((0,0)))
-    diff = ImageChops.difference(im, bg)
+    bg = pil.new(img.mode, img.size, img.getpixel((0,0)))
+    diff = ImageChops.difference(img, bg)
     if showSteps:
         show(diff)
     diff = ImageChops.add(diff, diff, 2.0, -50)
@@ -69,33 +75,44 @@ def trim(im, showSteps=False, returnArr=False):
     bbox = diff.getbbox()
     if bbox:
         if showSteps:
-            show(im.crop(bbox))
-        return np.array(im.crop(bbox).convert('L')) if returnArr else im.crop(bbox)
+            show(img.crop(bbox))
+        return np.array(img.crop(bbox).convert('L')) if returnArr else img.crop(bbox)
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #show function will display the image array passed to it in greyscale
 def show(im, flat=True):
-    plt.clf()
-    plt.imshow(readImage(im, flat=flat), cmap='gray', interpolation='nearest')
-    plt.show()
+    plt.clf() #Clear current figure
+    plt.imshow(readImage(im, flat=flat), cmap='gray', interpolation='nearest') #Display data as image
+    plt.show() #Display the data
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#thresh_otsu method takes an image array and returns binary image array where
+#thresh_otsu method takes an ndarray image (img) and returns binary image array where
 #all pixels above thresh value are white and below/equal to thresh are black
-def thresh_otsu(im, thresh):
-    im = im > thresh
-    im = sk.img_as_float(im)
-    im = im*255
-    return im
+def thresh_otsu(img, thresh):
+    img = img > thresh          #iterates through every value, sets it to True/False (ndarray now all bools)
+    img = sk.img_as_float(img)  #converts bool values to 1s and 0s
+    img = img*255               #upscales all pixels back up to 0-255 range
+    return img                  #return ndarray of binary image
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#readImage takes either a path string to 
-def readImage(img, flat=True):
+#readImage returns 
+#img - string path of image or image object (ndarray)
+#greyscale - If True, flattens the color layers into a single gray-scale layer.
+#returns an ndarray of the image:
+#   3D array if colour, [height/rows][width][R,G,B(ints)]
+#   2D array if greyscale [height/rows][width(floats)]
+
+#ndi.imread ndarray image outputs:
+#   JPEG, coloured - uint8 (int 0-255)
+#   JPEG, greyscale - float32 (0.00000000-1.00000000)
+#   PNG, coloured - uint8 (int 0-255)
+#   PNG, greyscale - float32 (0.00000000-1.00000000)
+def readImage(img, greyscale=True):
     try:
-        return ndi.imread(img, flatten=flat) if type(img) == type('str') else img
+        return ndi.imread(img, flatten=greyscale) if type(img) == type('str') else img
     except Exception as e:
         print('readImage Error: %s' %e)
         return None
@@ -804,7 +821,7 @@ if __name__ == '__main__':
 
     startTime = int(time.time())
 
-    srcOld = 'D:\\Screenshots - Copy\\IG\\old\\'
+    srcOld = 'E:\\Sample\\Sample\\'
     srcNew = 'D:\\Screenshots - Copy\\IG\\new\\'
     dest = 'D:\\FULL FINAL SORT\\'
     
