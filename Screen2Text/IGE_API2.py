@@ -29,7 +29,7 @@ X - top bar to be cropped (wifi, time etc)
 --------------
 '''
 
-
+import warnings
 import sys, os, time, shutil, threading, pprint
 import numpy as np                                  #https://docs.scipy.org/doc/numpy-1.11.0/reference/
 from math import ceil
@@ -52,20 +52,29 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract'
 
 
+
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #trim method takes out white borders on top and bottom of passed in image
 #returns the cropped version of the image
 def trim(img, showSteps=False, returnArr=False):
 
+    #convert from float32 ndarray to uint8 ndarray to PIL Image
     if type(img) == np.ndarray:
         img = pil.fromarray(np.uint8(img))
-    
+
+    #open image as PIL Image if img is a path string
     elif type(img) == type('abc'):
         im = pil.open(img)
         if showSteps:
             show(img)
-            
+
+    #bg is an image of the same size as img but in one colour,
+    #using the top-left pixel of img as the background colour
     bg = pil.new(img.mode, img.size, img.getpixel((0,0)))
+
+    #diff will be a darkened version of the image on a black background.
+    #bbox is the bounding box of all non-background-coloured pixels
+    #crop image using bbox and return ndarray of cropped image
     diff = ImageChops.difference(img, bg)
     if showSteps:
         show(diff)
@@ -76,6 +85,7 @@ def trim(img, showSteps=False, returnArr=False):
     if bbox:
         if showSteps:
             show(img.crop(bbox))
+        #.covert('L') - coverting to a greyscale image
         return np.array(img.crop(bbox).convert('L')) if returnArr else img.crop(bbox)
 
 
@@ -83,18 +93,17 @@ def trim(img, showSteps=False, returnArr=False):
 #show function will display the image array passed to it in greyscale
 def show(im, flat=True):
     plt.clf() #Clear current figure
-    plt.imshow(readImage(im, flat=flat), cmap='gray', interpolation='nearest') #Display data as image
+    plt.imshow(readImage(im, greyscale=flat), cmap='gray', interpolation='nearest') #Display data as image
     plt.show() #Display the data
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#thresh_otsu method takes an ndarray image (img) and returns binary image array where
+#thresh_otsu method takes an ndarray image (pic) and returns binary image array where
 #all pixels above thresh value are white and below/equal to thresh are black
-def thresh_otsu(img, thresh):
-    img = img > thresh          #iterates through every value, sets it to True/False (ndarray now all bools)
-    img = sk.img_as_float(img)  #converts bool values to 1s and 0s
-    img = img*255               #upscales all pixels back up to 0-255 range
-    return img                  #return ndarray of binary image
+def thresh_otsu(pic, thresh):
+    pic = pic > thresh          #iterates through every value, sets it to True/False (ndarray now all bools)
+    pic = sk.img_as_ubyte(pic)  #converts bool values to 0 or 255.
+    return pic                  #return ndarray of binary image
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
@@ -105,7 +114,7 @@ def thresh_otsu(img, thresh):
 #   3D array if colour, [height/rows][width][R,G,B(ints)]
 #   2D array if greyscale [height/rows][width(floats)]
 
-#ndi.imread ndarray image outputs:
+#ndi.imread ndarray image returns:
 #   JPEG, coloured - uint8 (int 0-255)
 #   JPEG, greyscale - float32 (0.00000000-1.00000000)
 #   PNG, coloured - uint8 (int 0-255)
@@ -320,18 +329,24 @@ def filter_db():
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 def sort_by_name(src='', dest='', named=False):
-    unreadNames = 'D:\\Screenshots - Copy\\IG\\Not Read\\' 
+    unreadNames = 'E:\\Sample\\Sample\\Sort\\((Not Read))\\' 
     allPics = os.listdir(src)
+    startTime = int(time.time())
+    nowTime = int(time.time())
+    endTime = int(time.time())
+    remaining = 0
+    remainMin = 0
+    remainSec = 0
     
     print('Processed: 0 out of '+ str(len(allPics)))
     
     for x, p in enumerate(allPics):
-        print('-----------------------------')
+        #print('-----------------------------')
         try:
             name = get_name(src+p)
             
             if name == '':
-                name = 'ERROR'
+                name = '((ERROR))'
 
             if not os.path.isdir(dest+name):
                 os.makedirs(dest+name)
@@ -374,65 +389,113 @@ def sort_by_name(src='', dest='', named=False):
                 #print('Not here. Saved '+nameInput+'\nCLOSE WINDOW!')
 
             if not named or flag:
-                if not os.path.isdir(dest+'ERROR'):
-                    os.makedirs(dest+'ERROR')
-                shutil.copy(src+p, dest+'ERROR\\'+p)
+                if not os.path.isdir(dest+'((ERROR))'):
+                    os.makedirs(dest+'((ERROR))')
+                shutil.copy(src+p, dest+'((ERROR))\\'+p)
 
             
         except Exception as e:
-            if not os.path.isdir(dest+'ERROR'):
-                os.makedirs(dest+'ERROR')
+            if not os.path.isdir(dest+'((ERROR))'):
+                os.makedirs(dest+'((ERROR))')
 
-            shutil.copy(src+p, dest+'ERROR\\'+p)
+            shutil.copy(src+p, dest+'((ERROR))\\'+p)
 
         #if x%10==0 or x%(len(allPics)-1)==0:
-        print('Processed: '+str(x+1)+' out of '+ str(len(allPics)))
+        #print('Processed: '+str(x+1)+' out of '+ str(len(allPics)))
+        if x%5==0:
+            if(x>0):
+                nowTime = int(time.time())
+                #print(str(nowTime-startTime) + " " + str(num))
+                remaining = int((nowTime - startTime)/x*(len(allPics)-x))
+                remainMin = remaining//60
+                remainSec = remaining%60
+                #remaining = ((nowTime-startTime)/(num/len(allPics)*100))*((len(allPics)-num)/len(allPics)*100)
+                print('Processed: '+str(x)+' out of '+str(len(allPics))+' ('+str(int(x/len(allPics)*100))+'%)'+
+                      '---Remaining: '+str(remainMin)+' min '+str(remainSec)+
+                      ' sec (sec/pic: '+str((nowTime-startTime)/x)+")")
 
-    print('Done!')
+    endTime = int(time.time())
+    endMin = (endTime - startTime)//60
+    endSec = (endTime - startTime)%60                      
+                      
+    print("COMPLETE - Elapsed Time: "+str(endMin)+" mins "+str(endSec)+" secs.")
     return None
-
 
     
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #separate_instas function will separate all(99.9%) the instagram screenshots 
 #from non-instagram screenshots. Further into old and new instagram formats
 def separate_instas():
-    src = 'D:\\Screenshots - Copy\\'
+    src = 'E:\\Sample\\Screenshots\\'
     dest = src+'IG\\'
     non = src+'non\\'
     
-    dirs = [dest, non, dest+'old', dest+'new']
+    dirs = [dest, non, dest+'old', dest+'new', dest+'latest']
     for d in dirs:
         if not os.path.isdir(d):
             os.makedirs(d)
 
     allPics = os.listdir(src)
+    startTime = int(time.time())
+    nowTime = int(time.time())
+    endTime = int(time.time())
+    remaining = 0
+    remainMin = 0
+    remainSec = 0
+    
     for x, pic in enumerate(allPics):
         if os.path.isfile(src+pic):
             if is_insta_screenshot(src+pic) == 1:
                 shutil.copy(src+pic, dest+'old\\'+pic)
             elif is_insta_screenshot(src+pic) == 2:
                 shutil.copy(src+pic, dest+'new\\'+pic)
+            elif is_insta_screenshot(src+pic) == 3:
+                shutil.copy(src+pic, dest+'latest\\'+pic)
             elif is_insta_screenshot(src+pic) == 0:
                 shutil.copy(src+pic, non+pic)
         
-        if x%25==0:
-            print('Processed: '+str(x)+' out of '+ str(len(allPics)))
-
+        if x%5==0:
+            if(x>0):
+                nowTime = int(time.time())
+                #print(str(nowTime-startTime) + " " + str(num))
+                remaining = int((nowTime - startTime)/x*(len(allPics)-x))
+                remainMin = remaining//60
+                remainSec = remaining%60
+                #remaining = ((nowTime-startTime)/(num/len(allPics)*100))*((len(allPics)-num)/len(allPics)*100)
+                print('Processed: '+str(x)+' out of '+str(len(allPics))+' ('+str(int(x/len(allPics)*100))+'%)'+
+                      '---Remaining: '+str(remainMin)+' min '+str(remainSec)+
+                      ' sec (sec/pic: '+str((nowTime-startTime)/x)+")")
+    endTime = int(time.time())
+    endMin = (endTime - startTime)//60
+    endSec = (endTime - startTime)%60
+                      
+                      
+    print("COMPLETE - Elapsed Time: "+str(endMin)+" mins "+str(endSec)+" secs.")
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #get_formats iterates through the path and based on the bottom portion of
 #the screenshot, collects the most common "formats". Instagram screenshots all
 #have a utility bar at the bottom. All variations of bar are saved for later use
 def get_formats():
+
+    startTime = int(time.time())
+    nowTime = int(time.time())
+    endTime = int(time.time())
+    remaining = 0
+    remainMin = 0
+    remainSec = 0
+    
     #switch will change the otsu threshold and the crop size of bottom 
     switch = 'Screenshot_2016-05-11-17-36-20.png'
-    path = 'D:\\Screenshots - Copy\\'
+    switch2 = 'Screenshot_20161121-192038.png'
+    switch3 = 'Screenshot_20180607-202442.png'
+    path = 'E:\\Sample\\Screenshots\\'
     allPics = os.listdir(path)
     formats = []
     amounts = []
     botSize = 168
     otsu = 100
+    
     
     for num, pic in enumerate(allPics):
         if pic == switch:
@@ -464,21 +527,35 @@ def get_formats():
                     break
 
             #if imm was not matched to a format, add it as a new one
-            #limit of 5 (except switch) different formats or else VERY SLOW
-            if ((not inList) and (len(formats)<5)) or pic == switch:
+            #limit of 10 (except switches) different formats or else VERY SLOW
+            if ((not inList) and (len(formats)<10)) or pic == switch or pic == switch2 or pic == switch3:
                 formats.append(imm)
                 amounts.append(1)
 
         #print progress every 10 pics
         if(num%100==0):
-              print('Complete: '+str(num)+' out of '+str(len(allPics))+' - LEN: '+str(len(formats)))
+            if(num>0):
+                nowTime = int(time.time())
+                #print(str(nowTime-startTime) + " " + str(num))
+                remaining = int((nowTime - startTime)/num*(len(allPics)-num))
+                remainMin = remaining//60
+                remainSec = remaining%60
+                #remaining = ((nowTime-startTime)/(num/len(allPics)*100))*((len(allPics)-num)/len(allPics)*100)
+            print('Complete: '+str(num)+' out of '+str(len(allPics))+' - LEN: '+str(len(formats))+'---Remaining: '+str(remainMin)+' min '+str(remainSec)+' sec')
         elif(num%10==0):
-            print('Complete: '+str(num)+' out of '+str(len(allPics)))
+            if(num>0):
+                nowTime = int(time.time())
+                #print(str(nowTime-startTime) + " " + str(num))
+                remaining = int((nowTime - startTime)/num*(len(allPics)-num))
+                remainMin = remaining//60
+                remainSec = remaining%60
+                #remaining = ((nowTime-startTime)/(num/len(allPics)*100))*((len(allPics)-num)/len(allPics)*100)
+            print('Complete: '+str(num)+' out of '+str(len(allPics))+'---Remaining: '+str(remainMin)+' min '+str(remainSec)+' sec')
             
     for idx, f in enumerate(formats):
         if amounts[idx] > 1:
             i = pil.fromarray(np.uint8(f))
-            i.save('C:\\Users\\Igor\\Documents\\Python\\ProjectsAndScripts\\IGE\\Formats\\'+str(amounts[idx])+' - '+str(int(time.time())+idx)+'.png')
+            i.save('E:\\Sample\\Formats2\\'+str(amounts[idx])+' - '+str(int(time.time())+idx)+'.png')
 
     return formats
   
@@ -486,19 +563,23 @@ def get_formats():
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 #is_insta_screenshot method will return True if the screenshot passed to it
 #has the bottom instagram toolbar. This indicates that the screenshot is of IG
+#boolean switches between returning True/False or actual image type, 1,2 or 3
 def is_insta_screenshot(img,readPath=True, boolean=False):
 
     #0 - NOT INSTA
     #1 - OLD FORMAT
     #2 - NEW FORMAT
-    format1 = 'C:\\Users\\Igor\\Documents\\Python\\ProjectsAndScripts\\IGE\\Formats\\1-456.png'
-    format2 = 'C:\\Users\\Igor\\Documents\\Python\\ProjectsAndScripts\\IGE\\Formats\\2-2764.png'
+    format1 = 'E:\\Sample\\Formats2\\1-859.png'
+    format2 = 'E:\\Sample\\Formats2\\2-3452.png'
+    format3 = 'E:\\Sample\\Formats2\\3-372.png'
 
+    #Read in image as im and both formats, all greyscale
     im = ndi.imread(img, flatten=True)
     format1 = ndi.imread(format1, flatten=True)
     format2 = ndi.imread(format2, flatten=True)
+    format3 = ndi.imread(format3, flatten=True)
 
-    #Try to match format 1
+    #Try to match im to format 1
     imm = im[im.shape[0]-168:][:]
     imm = thresh_otsu(imm,100)
     if get_ssim(format1,imm) > 0.93:
@@ -511,14 +592,21 @@ def is_insta_screenshot(img,readPath=True, boolean=False):
     if get_ssim(format2,imm) > 0.93:
         return True if boolean else 2
 
+    #Try to match format 3
+    imm = im[im.shape[0]-144:][:]
+    imm = thresh_otsu(imm,204)
+    imm = (resize(imm/255,format1.shape))*255
+    if get_ssim(format3,imm) > 0.93:
+        return True if boolean else 3
+
     return False if boolean else 0
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#get_ssim will return a float value (0.0-1.0)
-#indicating how similar img1 and img2 are
+#get_ssim will return a float value (0.0-1.0)indicating how similar img1 and img2 are
+#otsu takes -1 for inactive or 0-255 for an otsu threshold
 #assist will gaussian blur and scale image in order to get a better match
-#gauss and rs can be set to specific values for better precision
+#gauss and rs(rescale) can be set to specific values for better precision
 def get_ssim(img1, img2, otsu=-1, assist=False, gauss=0, rs=0):
 
     im1 = readImage(img1)
@@ -572,7 +660,7 @@ def get_name(src, dest='', regList=[], save=False, returnStr=True, showSteps=Fal
         wide = maxc - minc
         high = maxr - minr
         
-        #This will find the the name region
+        #This will find the the name region based on approximation of height and position
         if  minc > 125 and minc < 165 and minr < 500 and high >= 45 and wide >= 80 and wide <= 830 and regions.index(reg) < 10:
             nameRegs.append(reg)
             if draw:
@@ -723,11 +811,7 @@ def get_both(src, dest, saveName=False, saveAll=False, draw=False):
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
-#get_name_and_pic will take in a source instagram screenshot
-#and return a string of who posted it as well as the cropped image
-#savePic will save the picture to dest path
-#saveAll will save high-res pic, low-res icon and cropped name text
-#drawAll will draw a box around all discovered regions of the screenshot
+
 def get_regions(src, draw=False, showSteps=False, scale=True, ots=0.96, gauss=1):
     
     #this allows 0-255 values for otsu instead of just 0.0-1.0
@@ -820,12 +904,13 @@ def get_regions(src, draw=False, showSteps=False, scale=True, ots=0.96, gauss=1)
 if __name__ == '__main__':
 
     startTime = int(time.time())
+    warnings.filterwarnings("ignore")
 
     srcOld = 'E:\\Sample\\Sample\\'
     srcNew = 'D:\\Screenshots - Copy\\IG\\new\\'
     dest = 'D:\\FULL FINAL SORT\\'
     
-    switch = 3
+    switch = 0
 
     if switch == 1:
         sort_by_name(srcOld, dest, named=True)
@@ -849,8 +934,8 @@ if __name__ == '__main__':
     #if not os.path.isdir(dest+'ERROR\\ERR\\'):
      #   os.makedirs(dest+'ERROR\\ERR\\')
 
-        sort_by_name(src=dest+'ERROR\\', dest='D:\\Screenshots - Copy\\IG\\2Err\\', named=True)
-    
+        #sort_by_name(src=dest+'ERROR\\', dest='D:\\Screenshots - Copy\\IG\\2Err\\', named=True)
+        print("quitting")
 
     endTime = int(time.time())
 
