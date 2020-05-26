@@ -205,9 +205,9 @@ def filter_db():
 
     '''
     
-    src = 'D:\\FFS\\'
-    dest = 'D:\\Screenshots - Copy\\IG\\filtered\\'
-    src = dest+'NONE\\'
+    src = 'E:\\Sample\\Screenshots\\Sort\\'
+    dest = 'E:\\Sample\\((CATEGORIZED))\\'
+    #src = dest+'NONE\\'
     
     anyFunc = lambda folder,terms : any(i in folder for i in terms)
     
